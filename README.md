@@ -1,5 +1,10 @@
 # Universal Agent
 
+[![Release](https://img.shields.io/github/v/release/hua123an/universal-agent)](https://github.com/hua123an/universal-agent/releases)
+![TypeScript](https://img.shields.io/badge/TypeScript-5%2B-3178C6?logo=typescript&logoColor=white)
+![Anthropic](https://img.shields.io/badge/Anthropic-Claude%20Agent%20SDK-D97757)
+![OpenAI](https://img.shields.io/badge/OpenAI-Agents%20SDK-412991?logo=openai&logoColor=white)
+
 `universal-agent` is a small TypeScript CLI that combines:
 
 - `@anthropic-ai/claude-agent-sdk` for Claude Code-style code execution in a real workspace
