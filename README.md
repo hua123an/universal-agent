@@ -44,6 +44,20 @@ The default `hybrid` mode uses both:
 
 ## Install
 
+Run without installing:
+
+```bash
+npx @hua123an/universal-agent --help
+```
+
+Install globally:
+
+```bash
+npm install -g @hua123an/universal-agent
+```
+
+Install locally for development:
+
 ```bash
 npm install
 ```

@@ -1,5 +1,5 @@
 {
-  "name": "universal-agent",
+  "name": "@hua123an/universal-agent",
   "version": "1.0.0",
   "description": "Universal coding agent CLI that combines Anthropic Claude Agent SDK and OpenAI Agents SDK.",
   "main": "./dist/index.js",
@@ -10,15 +10,39 @@
     "build": "tsc -p tsconfig.json",
     "check": "tsc -p tsconfig.json --noEmit",
     "dev": "tsx src/index.ts",
+    "prepack": "npm run build",
     "start": "node dist/index.js"
   },
-  "keywords": [],
-  "author": "",
+  "files": [
+    "dist",
+    "README.md",
+    "LICENSE",
+    ".env.example"
+  ],
+  "keywords": [
+    "agent",
+    "anthropic",
+    "cli",
+    "mcp",
+    "openai",
+    "typescript"
+  ],
+  "author": "hua123an",
   "license": "ISC",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/hua123an/universal-agent.git"
+  },
+  "homepage": "https://github.com/hua123an/universal-agent#readme",
+  "bugs": {
+    "url": "https://github.com/hua123an/universal-agent/issues"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
   "type": "module",
   "dependencies": {
     "@anthropic-ai/claude-agent-sdk": "^0.2.114",
-    "@anthropic-ai/claude-agent-sdk-linux-x64": "^0.2.114",
     "@openai/agents": "^0.8.3",
     "dotenv": "^17.4.2",
     "zod": "^4.3.6"
