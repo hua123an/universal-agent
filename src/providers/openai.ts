@@ -30,6 +30,11 @@ import type {
   ProviderRunResult,
 } from '../types.js';
 import { JsonFileSession } from '../sessions/file-session.js';
+import {
+  getCodingAgentInstructions,
+  getPlanningAgentInstructions,
+  getReviewAgentInstructions,
+} from '../prompts/core.js';
 import { WorkspaceEditor } from '../tools/openai-editor.js';
 import { WorkspaceShell } from '../tools/openai-shell.js';
 import { Workspace } from '../tools/workspace.js';
@@ -460,11 +465,7 @@ export async function runOpenAICodingAgent(
         ? [...createReadOnlyTools(workspace), ...createWriteTools(request)]
         : createReadOnlyTools(workspace);
       const agent = new Agent({
-      instructions: `You are a pragmatic coding agent working in a real repository.
-
-Use read_file, glob_files, grep_files, and describe_workspace to inspect before editing.
-Use apply_patch for code edits and shell for commands such as tests or builds.
-Keep changes minimal, verify when practical, and finish with a concise summary of what changed and why.`,
+        instructions: getCodingAgentInstructions(),
         mcpServers,
         model: process.env.OPENAI_COMPAT_MODEL || request.config.openaiModel,
         name: 'Universal OpenAI Coding Agent',
@@ -576,10 +577,7 @@ export async function runOpenAIPlanner(
     const runWithProvider = async (useResponses: boolean) => {
       const runner = createRunner(createOpenAIModelProvider(useResponses));
       const agent = new Agent({
-      instructions: `You are a planning specialist preparing execution briefs for a coding agent.
-
-Inspect the workspace with the read-only tools. Then return a brief that tells an execution agent what to change, which files or areas matter most, and what risks to watch.
-Do not pretend that you made edits.`,
+        instructions: getPlanningAgentInstructions(),
         mcpServers,
         model: process.env.OPENAI_COMPAT_MODEL || request.config.openaiModel,
         name: 'Hybrid Planner',
@@ -622,10 +620,7 @@ export async function runOpenAIReviewer(
     const runWithProvider = async (useResponses: boolean) => {
       const runner = createRunner(createOpenAIModelProvider(useResponses));
       const agent = new Agent({
-      instructions: `You are a skeptical code reviewer.
-
-Inspect the current workspace state using read-only tools. Focus on correctness risks, behavioral regressions, and obvious gaps between the task and the implementation summary you were given.
-Keep the review concrete and concise.`,
+        instructions: getReviewAgentInstructions(),
         mcpServers,
         model: process.env.OPENAI_COMPAT_MODEL || request.config.openaiModel,
         name: 'Hybrid Reviewer',

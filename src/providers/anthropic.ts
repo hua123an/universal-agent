@@ -25,6 +25,10 @@ import type {
   ProviderRunResult,
   SessionMetadata,
 } from '../types.js';
+import {
+  buildAnthropicExecutionPrompt,
+  getAnthropicDirectFallbackSystemPrompt,
+} from '../prompts/core.js';
 import { json, truncate } from '../utils/text.js';
 
 interface TimestampedAnthropicMessage extends SessionMessage {
@@ -75,8 +79,7 @@ async function runAnthropicDirectFallback(
       max_tokens: 1024,
       messages: [{ content: request.prompt, role: 'user' }],
       model: request.config.anthropicModel,
-      system:
-        'You are a direct fallback for a coding agent. If the user asked for code changes or tool use, do not claim you made changes. Be explicit that this fallback cannot run tools or edit files.',
+      system: getAnthropicDirectFallbackSystemPrompt(),
     },
     request.signal ? { signal: request.signal } : undefined
   );
@@ -400,7 +403,7 @@ export async function runAnthropicCodingAgent(
           type: 'preset',
         },
       },
-      prompt: request.prompt,
+      prompt: buildAnthropicExecutionPrompt(request.prompt),
     });
 
     for await (const message of run) {
